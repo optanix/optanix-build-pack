@@ -15,16 +15,6 @@ BUILD_ROOT=$(cd $(dirname $BUILD_DIR)/..; pwd) # <= /
 
 source $BP_DIR/lib/common.sh
 
-echo "RUN DIR:"
-echo $(pwd)
-
-echo "FILES:"
-for file in $(find $BUILD_DIR/ -maxdepth 3 -type f); do
-  echo $file
-done
-
-echo "NOW DETECT"
-
 if [ -f $BUILD_DIR/Gopkg.toml ] ; then
   echo "Go"
   source $BP_DIR/lib/go-lang.sh
