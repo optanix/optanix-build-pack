@@ -15,32 +15,42 @@ BUILD_ROOT=$(cd $(dirname $BUILD_DIR)/..; pwd) # <= /
 
 source $BP_DIR/lib/common.sh
 
-if [ -f /app/Gopkg.toml ] ; then
+echo "RUN DIR:"
+echo $(pwd)
+
+echo "FILES:"
+for file in $(find $BUILD_DIR/ -maxdepth 3 -type f); do
+  echo $file
+done
+
+echo "NOW DETECT"
+
+if [ -f $BUILD_DIR/Gopkg.toml ] ; then
   echo "Go"
   source $BP_DIR/lib/go-lang.sh
-elif [ -d /app/target/ ] ; then
-  for jarFile in $(find /app/target -maxdepth 1 -name "*jar-with-dependencies.jar" -type f); do
+elif [ -d $BUILD_DIR/target/ ] ; then
+  for jarFile in $(find $BUILD_DIR/target -maxdepth 1 -name "*jar-with-dependencies.jar" -type f); do
     echo "Java"
     source $BP_DIR/lib/java-jar.sh
   done
-elif [ -e /app/pom.xml ]; then
-  for jarFile in $(find /app/ -maxdepth 3 -name "*jar-with-dependencies.jar" -type f); do
+elif [ -e $BUILD_DIR/pom.xml ]; then
+  for jarFile in $(find $BUILD_DIR/ -maxdepth 3 -name "*jar-with-dependencies.jar" -type f); do
     echo "JavaMultiModule"
     source $BP_DIR/lib/java-multi-jar.sh
   done
-elif [ -f /app/.perlcriticrc ] ; then
+elif [ -f $BUILD_DIR/.perlcriticrc ] ; then
   echo "Perl"
   source $BP_DIR/lib/perl.sh
 elif [ -f ./composer.json ] ; then
   echo "PHP"
   source $BP_DIR/lib/php.sh
-elif [ -d /app/pkg-src ] ; then
+elif [ -d $BUILD_DIR/pkg-src ] ; then
   echo "Generic"
   source $BP_DIR/lib/generic.sh
-elif [ -d /app/src/bin ]; then
+elif [ -d $BUILD_DIR/src/bin ]; then
   echo "Generic-Process"
   source $BP_DIR/lib/generic.sh
-elif [ -d /app/packages/optanix-c ]; then
+elif [ -d $BUILD_DIR/packages/optanix-c ]; then
   echo "Optanix-C"
   source $BP_DIR/lib/generic.sh
 else
