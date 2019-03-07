@@ -18,17 +18,15 @@ source $BP_DIR/lib/common.sh
 if [ -f ./Gopkg.toml ] ; then
   echo "Go"
   source $BP_DIR/lib/go-lang.sh
-elif [ -d $1 ] ; then
-  if [ -e $1/pom.xml ]; then
-    for jarFile in $(find $1/ -maxdepth 3 -name "*jar-with-dependencies.jar" -type f); do
-      echo "JavaMultiModule"
-      source $BP_DIR/lib/java-multi-jar.sh
-    done
-  fi
 elif [ -d $1/target/ ] ; then
   for jarFile in $(find $1/target -maxdepth 1 -name "*jar-with-dependencies.jar" -type f); do
     echo "Java"
     source $BP_DIR/lib/java-jar.sh
+  done
+elif [ -e $1/pom.xml ]; then
+  for jarFile in $(find $1/ -maxdepth 3 -name "*jar-with-dependencies.jar" -type f); do
+    echo "JavaMultiModule"
+    source $BP_DIR/lib/java-multi-jar.sh
   done
 elif [ -f $1/.perlcriticrc ] ; then
   echo "Perl"
