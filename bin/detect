@@ -1,0 +1,37 @@
+#!/usr/bin/env bash
+# bin/use <build-dir>
+
+if [ -f ./Gopkg.toml ] ; then
+  echo "Go"
+  exit 0
+elif [ -d $1 ] ; then
+  if [ -e $1/pom.xml ]; then
+    for jarFile in $(find $1/ -maxdepth 3 -name "*jar-with-dependencies.jar" -type f); do
+      echo "JavaMultiModule"
+      exit 0
+    done
+  fi
+elif [ -d $1/target/ ] ; then
+  for jarFile in $(find $1/target -maxdepth 1 -name "*jar-with-dependencies.jar" -type f); do
+    echo "Java"
+    exit 0
+  done
+elif [ -f $1/.perlcriticrc ] ; then
+  echo "Perl"
+  exit 0
+elif [ -f ./composer.json ] ; then
+  echo "PHP"
+  exit 0
+elif [ -d $1/pkg-src ] ; then
+  echo "Generic"
+  exit 0
+elif [ -d $1/src/bin ]; then
+  echo "Generic-Process"
+  exit 0
+elif [ -d $1/packages/optanix-c ]; then
+  echo "Optanix-C"
+  exit 0
+else
+  (>&2 echo "Could not find a matching profile! Please check that one exists and is committed to Git.")
+  exit 1
+fi
