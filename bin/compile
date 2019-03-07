@@ -13,36 +13,34 @@ CACHE_DIR=$2
 ENV_DIR=$3
 BUILD_ROOT=$(cd $(dirname $BUILD_DIR)/..; pwd) # <= /
 
-echo $(ls -larth $CACHE_DIR)
-
 source $BP_DIR/lib/common.sh
 
-if [ -f $CACHE_DIR/Gopkg.toml ] ; then
+if [ -f /app/Gopkg.toml ] ; then
   echo "Go"
   source $BP_DIR/lib/go-lang.sh
-elif [ -d $CACHE_DIR/target/ ] ; then
-  for jarFile in $(find $CACHE_DIR/target -maxdepth 1 -name "*jar-with-dependencies.jar" -type f); do
+elif [ -d /app/target/ ] ; then
+  for jarFile in $(find /app/target -maxdepth 1 -name "*jar-with-dependencies.jar" -type f); do
     echo "Java"
     source $BP_DIR/lib/java-jar.sh
   done
-elif [ -e $CACHE_DIR/pom.xml ]; then
-  for jarFile in $(find $CACHE_DIR/ -maxdepth 3 -name "*jar-with-dependencies.jar" -type f); do
+elif [ -e /app/pom.xml ]; then
+  for jarFile in $(find /app/ -maxdepth 3 -name "*jar-with-dependencies.jar" -type f); do
     echo "JavaMultiModule"
     source $BP_DIR/lib/java-multi-jar.sh
   done
-elif [ -f $CACHE_DIR/.perlcriticrc ] ; then
+elif [ -f /app/.perlcriticrc ] ; then
   echo "Perl"
   source $BP_DIR/lib/perl.sh
 elif [ -f ./composer.json ] ; then
   echo "PHP"
   source $BP_DIR/lib/php.sh
-elif [ -d $CACHE_DIR/pkg-src ] ; then
+elif [ -d /app/pkg-src ] ; then
   echo "Generic"
   source $BP_DIR/lib/generic.sh
-elif [ -d $CACHE_DIR/src/bin ]; then
+elif [ -d /app/src/bin ]; then
   echo "Generic-Process"
   source $BP_DIR/lib/generic.sh
-elif [ -d $CACHE_DIR/packages/optanix-c ]; then
+elif [ -d /app/packages/optanix-c ]; then
   echo "Optanix-C"
   source $BP_DIR/lib/generic.sh
 else
