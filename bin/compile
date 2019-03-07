@@ -13,6 +13,8 @@ CACHE_DIR=$2
 ENV_DIR=$3
 BUILD_ROOT=$(cd $(dirname $BUILD_DIR)/..; pwd) # <= /
 
+echo $(ls -larth $CACHE_DIR)
+
 source $BP_DIR/lib/common.sh
 
 if [ -f $CACHE_DIR/Gopkg.toml ] ; then
