@@ -21,7 +21,7 @@ elif [ -f $1/.perlcriticrc ] ; then
 elif [ -f ./composer.json ] ; then
   echo "PHP"
   exit 0
-elif [ -d $1/pkg-src ] ; then
+elif [ -d $1/pkg-src ] || [ -d $1/src ]; then
   echo "Generic"
   exit 0
 elif [ -d $1/src/bin ]; then
