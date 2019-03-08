@@ -34,7 +34,7 @@ elif [ -f $BUILD_DIR/.perlcriticrc ] ; then
 elif [ -f ./composer.json ] ; then
   echo "PHP"
   source $BP_DIR/lib/php.sh
-elif [ -d $BUILD_DIR/pkg-src ] ; then
+elif [ -d $BUILD_DIR/pkg-src ] || [ -d $BUILD_DIR/src ]; then
   echo "Generic"
   source $BP_DIR/lib/generic.sh
 elif [ -d $BUILD_DIR/src/bin ]; then
