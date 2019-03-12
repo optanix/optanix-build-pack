@@ -22,7 +22,7 @@ else
   exit 1
 fi
 
-if [ -n ${BUILD_TYPE} && -e ${BP_DIR}/lib/${BUILD_TYPE}.sh ]; then
+if [[ -n ${BUILD_TYPE} && -e ${BP_DIR}/lib/${BUILD_TYPE}.sh ]]; then
   source ${BP_DIR}/lib/${BUILD_TYPE}.sh
 else
   (>&2 echo "Could not find a matching profile! Please check that one exists and is committed to Git.")
