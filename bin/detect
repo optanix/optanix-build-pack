@@ -57,7 +57,7 @@ elif [ -f ./composer.json ] ; then
   echo "PHP"
   set_build_type "false", "php"
   exit 0
-elif [ -d $1/pkg-src ] ; then
+elif [ -d $1/pkg-src ] || [ -d $1/src ]; then
   echo "Generic"
   set_build_type "false", "generic"
   exit 0

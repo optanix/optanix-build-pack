@@ -14,5 +14,5 @@ run_build() {
 }
 
 release() {
-
+	:
 }
