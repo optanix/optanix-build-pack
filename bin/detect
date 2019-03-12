@@ -1,34 +1,75 @@
 #!/usr/bin/env bash
 # bin/use <build-dir>
 
-if [ -f ./Gopkg.toml ] ; then
+BUILD_TYPE_FILE=$1/.build_type
+
+set_build_type() {
+  local override=${1?"false"}
+  local type=${2?"generic"}
+
+  echo "OVERRIDE_BUILD_TYPE=${override}" > ${BUILD_TYPE_FILE}
+  echo "BUILD_TYPE=${type}" >> ${BUILD_TYPE_FILE}
+}
+
+################################
+# This file allows you to override the type detection used by pkgr.
+# If you know what type of build you want to use:
+# set OVERRIDE_BUILD_TYPE to true
+# define a type from the availabe build-types below
+# BUILD_TYPE=java-jar
+# Available build-types
+# generic
+# go-lang
+# java-jar
+# java-multi-jar
+# perl
+# php
+################################
+if [ -f $1/.build_type ]; then
+  source $1/.build_type
+fi
+
+if [ -n ${OVERRIDE_BUILD_TYPE} && ${OVERRIDE_BUILD_TYPE} == 'true' ]; then
+  echo "Override: ${BUILD_TYPE}"
+  set_build_type "true", ${BUILD_TYPE}
+  exit 0
+elif [ -f ./Gopkg.toml ] ; then
   echo "Go"
+  set_build_type "false", "go-lang"
   exit 0
 elif [ -d $1/target/ ] ; then
   for jarFile in $(find $1/target -maxdepth 1 -name "*jar-with-dependencies.jar" -type f); do
     echo "Java"
+    set_build_type "false", "java-jar"
     exit 0
   done
-
 elif [ -e $1/pom.xml ]; then
     for jarFile in $(find $1/ -maxdepth 3 -name "*jar-with-dependencies.jar" -type f); do
       echo "JavaMultiModule"
+      set_build_type "false", "java-multi-jar"
       exit 0
     done
 elif [ -f $1/.perlcriticrc ] ; then
   echo "Perl"
+  set_build_type "false", "perl"
   exit 0
 elif [ -f ./composer.json ] ; then
   echo "PHP"
+  set_build_type "false", "php"
   exit 0
 elif [ -d $1/pkg-src ] ; then
   echo "Generic"
+  set_build_type "false", "generic"
   exit 0
 elif [ -d $1/src/bin ]; then
   echo "Generic-Process"
   exit 0
 elif [ -d $1/packages/optanix-c ]; then
   echo "Optanix-C"
+  set_build_type "false", "generic"
+  exit 0
+elif [ -n ${BUILD_TYPE} ]; then
+  echo ${BUILD_TYPE}
   exit 0
 else
   (>&2 echo "Could not find a matching profile! Please check that one exists and is committed to Git.")

@@ -15,34 +15,15 @@ BUILD_ROOT=$(cd $(dirname $BUILD_DIR)/..; pwd) # <= /
 
 source $BP_DIR/lib/common.sh
 
-if [ -f $BUILD_DIR/Gopkg.toml ] ; then
-  echo "Go"
-  source $BP_DIR/lib/go-lang.sh
-elif [ -d $BUILD_DIR/target/ ] ; then
-  for jarFile in $(find $BUILD_DIR/target -maxdepth 1 -name "*jar-with-dependencies.jar" -type f); do
-    echo "Java"
-    source $BP_DIR/lib/java-jar.sh
-  done
-elif [ -e $BUILD_DIR/pom.xml ]; then
-  for jarFile in $(find $BUILD_DIR/ -maxdepth 3 -name "*jar-with-dependencies.jar" -type f); do
-    echo "JavaMultiModule"
-    source $BP_DIR/lib/java-multi-jar.sh
-  done
-elif [ -f $BUILD_DIR/.perlcriticrc ] ; then
-  echo "Perl"
-  source $BP_DIR/lib/perl.sh
-elif [ -f ./composer.json ] ; then
-  echo "PHP"
-  source $BP_DIR/lib/php.sh
-elif [ -d $BUILD_DIR/pkg-src ] ; then
-  echo "Generic"
-  source $BP_DIR/lib/generic.sh
-elif [ -d $BUILD_DIR/src/bin ]; then
-  echo "Generic-Process"
-  source $BP_DIR/lib/generic.sh
-elif [ -d $BUILD_DIR/packages/optanix-c ]; then
-  echo "Optanix-C"
-  source $BP_DIR/lib/generic.sh
+if [ -f ${BUILD_DIR}/.build_type ]; then
+  source ${BUILD_DIR}/.build_type
+else
+  echo "Cant find .build_type file"
+  exit 1
+fi
+
+if [ -n ${BUILD_TYPE} && -e ${BP_DIR}/lib/${BUILD_TYPE}.sh ]; then
+  source ${BP_DIR}/lib/${BUILD_TYPE}.sh
 else
   (>&2 echo "Could not find a matching profile! Please check that one exists and is committed to Git.")
   exit 1
