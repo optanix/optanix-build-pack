@@ -29,8 +29,6 @@ else
   exit 1
 fi
 
-source <(curl -s --retry 3 -L $BUILDPACK_STDLIB_URL)
-
 run_build $BUILD_DIR $CACHE_DIR $ENV_DIR $BUILD_ROOT
 
 puts_step "Done compiling!"
