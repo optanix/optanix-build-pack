@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-export BUILDPACK_STDLIB_URL="https://lang-common.s3.amazonaws.com/buildpack-stdlib/v7/stdlib.sh"
+#export BUILDPACK_STDLIB_URL="https://lang-common.s3.amazonaws.com/buildpack-stdlib/v7/stdlib.sh"
 
 get_app_system_value() {
   local file=${1?"No file specified"}
@@ -36,4 +36,15 @@ copy_and_rm_dir() {
     puts_step "Removing $from_dir"
     rm -rf $from_dir
   fi
+}
+
+puts_step() {
+  local CYAN='\033[0;36m'
+  if [[ "$@" == "-" ]]; then
+    read output
+  else
+    output=$@
+  fi
+  echo -e "$CYAN=== $output"
+  unset output
 }
