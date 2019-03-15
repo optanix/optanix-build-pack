@@ -43,12 +43,16 @@ elif [ -d $1/target/ ] ; then
     set_build_type "false" "java-jar"
     exit 0
   done
+  echo "Did not find a jar inside /target/ !"
+  exit 1
 elif [ -e $1/pom.xml ]; then
     for jarFile in $(find $1/ -maxdepth 3 -name "*jar-with-dependencies.jar" -type f); do
       echo "JavaMultiModule"
       set_build_type "false" "java-multi-jar"
       exit 0
     done
+    echo "Did not find a jar inside project!"
+    exit 1
 elif [ -f $1/.perlcriticrc ] ; then
   echo "Perl"
   set_build_type "false" "perl"
