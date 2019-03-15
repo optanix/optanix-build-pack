@@ -63,6 +63,7 @@ elif [ -d $1/pkg-src ] || [ -d $1/src ]; then
   exit 0
 elif [ -d $1/src/bin ]; then
   echo "Generic-Process"
+  set_build_type "false" "generic"
   exit 0
 elif [ -d $1/packages/optanix-c ]; then
   echo "Optanix-C"
