@@ -13,6 +13,7 @@ To specify which build pack to use, you can place a file in the root dir named `
 # generic
 # go-lang
 # java-jar
+# java-spring
 # java-multi-jar
 # perl
 # php

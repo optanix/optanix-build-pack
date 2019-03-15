@@ -43,6 +43,11 @@ elif [ -d $1/target/ ] ; then
     set_build_type "false" "java-jar"
     exit 0
   done
+  for jarFile in $(find $1/target -maxdepth 1 -name "*spring-boot.jar" -type f); do
+    echo "Java Spring"
+    set_build_type "false" "java-spring"
+    exit 0
+  done
   echo "Did not find a jar inside /target/ !"
   exit 1
 elif [ -e $1/pom.xml ]; then
