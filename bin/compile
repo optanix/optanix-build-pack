@@ -23,6 +23,8 @@ else
 fi
 
 if [[ -n ${BUILD_TYPE} && -e ${BP_DIR}/lib/${BUILD_TYPE}.sh ]]; then
+
+  echo "Identified build type: ${BUILD_TYPE}"
   source ${BP_DIR}/lib/${BUILD_TYPE}.sh
 else
   (>&2 echo "Could not find a matching profile! Please check that one exists and is committed to Git.")
