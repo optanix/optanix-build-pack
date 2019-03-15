@@ -68,7 +68,7 @@ elif [ -d $1/packages/optanix-c ]; then
   echo "Optanix-C"
   set_build_type "false" "generic"
   exit 0
-elif [ -n ${BUILD_TYPE} ]; then
+elif [ -n "${BUILD_TYPE}" ]; then
   echo ${BUILD_TYPE}
   exit 0
 else
