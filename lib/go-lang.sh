@@ -6,7 +6,13 @@ run_build() {
   local env_dir=${3}
   local build_root=${4}
 
+  if [ -d $build_dir/pkg-src ]; then
+    puts_step "Moving pkg-src"
+  	copy_and_rm_dir "${build_dir}/pkg-src/" $build_root
+  fi
+
   copy_and_rm_dir "bin/" ${build_root}/usr/local/bin/
+  
 }
 
 
