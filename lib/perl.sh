@@ -7,7 +7,10 @@ run_build() {
   local build_root=${4}
 
   if [ -d $build_dir/src ]; then
-
+	if [ -d $build_dir/pkg-src ]; then
+        puts_step "Moving pkg-src"
+    	copy_and_rm_dir "${build_dir}/pkg-src/" $build_root
+    fi
     puts_step "Moving src/lib"
     copy_and_rm_dir "${build_dir}/src/lib/" "${build_root}/usr/local/lib/perl5"
 
