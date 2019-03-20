@@ -6,7 +6,7 @@ run_build() {
   local env_dir=${3}
   local build_root=${4}
 
-  copy_and_rm_dir "bin" ${build_root}/usr/local/bin/
+  copy_and_rm_dir "bin/" ${build_root}/usr/local/bin/
 }
 
 
